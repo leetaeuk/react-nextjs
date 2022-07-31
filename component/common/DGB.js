@@ -1,5 +1,5 @@
 import Router from "next/router";
-import * as history from '/component/common/history';
+import * as History from '/component/common/History';
 
 let __IS_BACK = false;
 
@@ -19,7 +19,7 @@ export function getIsBack()
  */
 export function goMain()
 {
-    history.init();
+    History.init();
     Router.replace("/");
 }
 
@@ -52,7 +52,7 @@ export function Location(svcId, paramJson, options, isBack)
     {
         // 히스토리 변경(현재페이지정보, 이동할페이지정보, 파라미터정보, 옵션)
         Router.replace(svcId).then(r => {
-            history.change(svcId, paramJson, options);
+            History.change(svcId, paramJson, options);
         });
     }
     // 정상 location의 경우 히스토리 추가
@@ -60,7 +60,7 @@ export function Location(svcId, paramJson, options, isBack)
     {
         // 히스토리 추가(현재페이지정보, 이동할페이지정보, 파라미터정보, 옵션)
         Router.replace(svcId).then(r => {
-            history.add(currentPageId, svcId, paramJson, options);
+            History.add(currentPageId, svcId, paramJson, options);
         });
     }
 };
@@ -87,7 +87,7 @@ export function LocationBack(svcId, paramJson, options)
     if( svcId )
     {
         // 넘겨준 서비스아이디를 찾을때까지 히스토리 array를 search한 후 찾은 정보를 리턴
-        let lastSvcInfo = history.removeFindSvcId(svcId);
+        let lastSvcInfo = History.removeFindSvcId(svcId);
 
         let param = {};
         let opt   = {};
@@ -113,10 +113,10 @@ export function LocationBack(svcId, paramJson, options)
     else
     {
         // 히스토리정보가 1개 이상 존재하는 경우
-        if( history.getHistorySize() > 0 )
+        if( History.getHistorySize() > 0 )
         {
             // 맨 마지막 히스토리 1개만 삭제 후 이전페이지 정보 세팅
-            let afterPopSvcInfo = history.pop();
+            let afterPopSvcInfo = History.pop();
 
             // 이전으로 갈 정보가 없으면 메인화면으로 이동처리
             if( afterPopSvcInfo == null || afterPopSvcInfo == undefined )
@@ -148,5 +148,5 @@ export function goBack()
     setIsBack(true);
 
     // 뒤로가기 처리
-    LocationBack(history.getLastSvcInfo().CURRENT_PAGE_ID);
+    LocationBack(History.getLastSvcInfo().CURRENT_PAGE_ID);
 };
