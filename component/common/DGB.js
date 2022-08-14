@@ -1,16 +1,9 @@
 import Router from "next/router";
 import * as History from '/component/common/History';
+import * as Global from '/component/common/Global';
+import React, {useRef} from "react";
 
-let __IS_BACK = false;
 
-export function setIsBack(isBack)
-{
-    __IS_BACK = isBack;
-}
-export function getIsBack()
-{
-    return __IS_BACK;
-}
 
 /**
  * 메인페이지 이동
@@ -145,8 +138,30 @@ export function LocationBack(svcId, paramJson, options)
 export function goBack()
 {
     // 뒤로가기 상태값 세팅
-    setIsBack(true);
+    Global.setIsBack(true);
 
     // 뒤로가기 처리
     LocationBack(History.getLastSvcInfo().CURRENT_PAGE_ID);
 };
+
+export function OpenDialog()
+{
+    let props = Global.getProps();
+    props.modal(true);
+}
+export function CloseDialog()
+{
+    let props = Global.getProps();
+    props.modal(false);
+}
+export function OpenFullScreenDialog()
+{
+    let props = Global.getProps();
+    console.error(props)
+    props.fullscreenmodal(true);
+}
+export function CloseFullScreenDialog()
+{
+    let props = Global.getProps();
+    props.fullscreenmodal(false);
+}
